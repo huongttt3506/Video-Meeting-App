@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  backend:
+    image: video-meeting-backend:lastest
+    container_name: backend-compose
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - video-meeting-app
+    depends_on:
+      - mysql
+
+  frontend:
+    image: video-meeting-frontend:lastest
+    container_name: frontend-compose
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - video-meeting-app
+    depends_on:
+      - backend
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-compose
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - video-meeting-app
+
+volumes:
+  mysql-data:
+networks:
+  video-meeting-app:
+    driver: bridge
