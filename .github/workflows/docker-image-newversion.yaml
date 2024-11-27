@@ -1,0 +1,49 @@
+name: Docker Image Delivery
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Set Image Tag
+        id: image-tag
+        run: echo "TAG=$(date +%s)-ci" >> "$GITHUB_OUTPUT"
+
+      - name: Build the Docker images
+        env:
+          TAG: ${{ steps.image-tag.outputs.TAG }}
+        run: |
+          docker build --file ./frontend/Dockerfile --tag "${{ secrets.DOCKERHUB_USERNAME }}/video-meeting-app:frontend-$TAG" ./frontend
+          docker build --file ./backend/Dockerfile --tag "${{ secrets.DOCKERHUB_USERNAME }}/video-meeting-app:backend-$TAG" ./backend
+
+      - name: Login To Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Push the Docker Images
+        env:
+          TAG: ${{ steps.image-tag.outputs.TAG }}
+        run: |
+          docker push "${{ secrets.DOCKERHUB_USERNAME }}/video-meeting-app:frontend-$TAG"
+          docker push "${{ secrets.DOCKERHUB_USERNAME }}/video-meeting-app:backend-$TAG"
+
+      - name: Tag Images as latest
+        env:
+          TAG: ${{ steps.image-tag.outputs.TAG }}
+        run: |
+          docker tag "${{ secrets.DOCKERHUB_USERNAME }}/video-meeting-app:frontend-$TAG" \
+          "${{ secrets.DOCKERHUB_USERNAME }}/video-meeting-app:frontend-latest"
+          docker tag "${{ secrets.DOCKERHUB_USERNAME }}/video-meeting-app:backend-$TAG" \
+          "${{ secrets.DOCKERHUB_USERNAME }}/video-meeting-app:backend-latest"
+
+      - name: Push latest
+        run: |
+          docker push "${{ secrets.DOCKERHUB_USERNAME }}/video-meeting-app:frontend-latest"
+          docker push "${{ secrets.DOCKERHUB_USERNAME }}/video-meeting-app:backend-latest"
