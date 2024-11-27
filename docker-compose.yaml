@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    image: ${DOCKER_USERNAME}/video-meeting-app:backend-latest
+    image: ${DOCKER_USERNAME}/video-meeting-app:backend-${IMAGE_TAG:-latest}
     container_name: backend-compose
     restart: always
     ports:
@@ -13,7 +13,7 @@ services:
       - mysql
 
   frontend:
-    image: ${DOCKER_USERNAME}/video-meeting-app:frontend-latest
+    image: ${DOCKER_USERNAME}/video-meeting-app:frontend-${IMAGE_TAG:-latest}
     container_name: frontend-compose
     restart: always
     ports:
