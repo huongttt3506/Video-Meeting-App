@@ -2,9 +2,10 @@
 ## 📖 Introduction
 Docker-React-Java-MySQL is a full-stack application that includes:
 
-Frontend: React (running on Node.js)
-Backend: Spring Boot (Java 17)
-Database: MySQL
+- Frontend: React (running on Node.js)
+- Backend: Spring Boot (Java 17)
+- Database: MySQL.
+  
 The application leverages Docker Compose for deployment but requires building individual images for frontend and backend beforehand. Additionally, the project is integrated with a CI/CD pipeline using GitHub Actions, which automates the process of building, tagging, and pushing the Docker images to Docker Hub. This ensures a smooth workflow for deployment and version control of the frontend and backend components.
 ## Project Structure
 ```
@@ -146,8 +147,8 @@ After the application starts, navigate to:
 - Backend: [localhost:8080](http://localhost:8080)
 - MySQL: localhost:3307
 
-![frontend](docs\frontend.png)
-![frontend](docs\backend.png)
+![frontend](./docs/frontend.png)
+![backend](./docs/backend.png)
 
 Stop and Remove the Containers
 To stop and remove the containers, run:
