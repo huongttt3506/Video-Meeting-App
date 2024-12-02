@@ -61,8 +61,7 @@ dependencies {
 	implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.4'
 
 	// dotenv-java
-	implementation group: 'io.github.cdimascio', name: 'dotenv-java', version: '3.0.2'
-
+//	implementation group: 'io.github.cdimascio', name: 'dotenv-java', version: '3.0.2'
 	// Spring Cloud AWS
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
