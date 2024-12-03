@@ -11,6 +11,7 @@ import com.example.video_meeting_app.auth.security.CustomUserDetails;
 import com.example.video_meeting_app.auth.security.jwt.JwtTokenUtils;
 import com.example.video_meeting_app.auth.security.jwt.dto.JwtRequestDto;
 import com.example.video_meeting_app.auth.security.jwt.dto.JwtResponseDto;
+import com.example.video_meeting_app.common.utils.FileHandlerUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
@@ -30,6 +32,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtils jwtTokenUtils;
+    private final FileHandlerUtils fileHandlerUtils;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -78,6 +81,17 @@ public class UserService implements UserDetailsService {
                         userEntity.getRole().equals(UserRole.ROLE_INACTIVE)
         )
             userEntity.setRole(UserRole.ROLE_USER);
+        return UserDto.fromEntity(userRepo.save(userEntity));
+    }
+    public UserDto profileImg(MultipartFile file) {
+        UserEntity userEntity = authFacade.extractUser();
+        String requestPath = fileHandlerUtils.saveFile(
+                String.format("users/%d/", userEntity.getId()),
+                "profile",
+                file
+        );
+
+        userEntity.setProfileImg(requestPath);
         return UserDto.fromEntity(userRepo.save(userEntity));
     }
 
