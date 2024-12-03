@@ -1,4 +1,4 @@
-package com.example.video_meeting_app.config;
+package com.example.video_meeting_app.auth.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

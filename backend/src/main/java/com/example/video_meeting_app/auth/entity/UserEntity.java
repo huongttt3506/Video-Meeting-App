@@ -24,9 +24,10 @@ public class UserEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String password;
+    private String name;
     private String email;
     private String phone;
-    private String profileImageUrl;
+    private String profileImg;
     private UserStatus status; //ONLINE, OFFLINE, BUSY
     private UserRole role; //ADMIN, USER
 

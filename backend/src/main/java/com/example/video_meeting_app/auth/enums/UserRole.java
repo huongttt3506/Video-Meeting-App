@@ -1,5 +1,5 @@
 package com.example.video_meeting_app.auth.enums;
 
 public enum UserRole {
-    USER, ADMIN
+    ROLE_USER, ROLE_ADMIN
 }
