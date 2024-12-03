@@ -8,7 +8,9 @@ import com.example.video_meeting_app.auth.security.jwt.dto.JwtResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -40,6 +42,22 @@ public class UserController {
             UpdateUserDto dto
     ) {
         return userService.updateUser(dto);
+    }
+
+    @PutMapping(
+            value = "profile",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public UserDto profileImg(
+            @RequestParam("file")
+            MultipartFile file
+    ) {
+        return userService.profileImg(file);
+    }
+
+    @GetMapping("get-user-info")
+    public UserDto getUserInfo() {
+        return userService.getUserInfo();
     }
 
 }
