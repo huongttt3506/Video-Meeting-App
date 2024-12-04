@@ -64,7 +64,7 @@ public class FriendshipsService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         // Check if the current user is an invitation recipient
-        if (!friendship.getUser2().equals(currentUser)) {
+        if (friendship.getUser2().equals(currentUser)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
@@ -88,7 +88,7 @@ public class FriendshipsService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         // Check if the current user is an invitation recipient
-        if (!friendship.getUser2().equals(currentUser)) {
+        if (friendship.getUser2().equals(currentUser)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
@@ -149,7 +149,7 @@ public class FriendshipsService {
     }
 
     // Get friendship status
-    public String getFriendshipStatus(Long friendId) {
+    public FriendshipStatus getFriendshipStatus(Long friendId) {
         UserEntity currentUser = authFacade.extractUser();
 
         UserEntity friendUser = userRepository.findById(friendId)
@@ -160,7 +160,7 @@ public class FriendshipsService {
                 .orElse(null);
 
         if (friendship == null) {
-            return "Friend request not sent"; // No friendship exists yet
+            return FriendshipStatus.UNDEFINED; // No friendship exists yet
         }
 
         // Check the status of the friendship relationship
@@ -168,14 +168,16 @@ public class FriendshipsService {
             case PENDING:
                 // If the current user is the one who sent the friend request
                 if (friendship.getUser1().equals(currentUser)) {
-                    return "Pending approval"; // The current user sent the request
+                    return FriendshipStatus.PENDING; // The current user sent the request
                 } else {
-                    return "Friend request sent"; // The other user sent the request
+                    return FriendshipStatus.PENDING; // The other user sent the request
                 }
             case ACCEPTED:
-                return "Friends"; // The friendship has been accepted
+                return FriendshipStatus.ACCEPTED; // The friendship has been accepted
+            case DECLINED:
+                return FriendshipStatus.DECLINED;
             default:
-                return "Status undefined"; // Friendship status is undefined
+                return FriendshipStatus.UNDEFINED; // Friendship status is undefined
         }
     }
 

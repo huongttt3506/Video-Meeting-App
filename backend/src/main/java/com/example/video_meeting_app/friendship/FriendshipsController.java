@@ -2,6 +2,7 @@ package com.example.video_meeting_app.friendship;
 
 import com.example.video_meeting_app.auth.entity.UserEntity;
 import com.example.video_meeting_app.friendship.entity.Friendships;
+import com.example.video_meeting_app.friendship.enums.FriendshipStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +45,8 @@ public class FriendshipsController {
 
     // Get friendship status
     @GetMapping("/{friendId}/status")
-    public ResponseEntity<String> getFriendshipStatus(@PathVariable Long friendId) {
-        String status = friendshipsService.getFriendshipStatus(friendId);
+    public ResponseEntity<FriendshipStatus> getFriendshipStatus(@PathVariable Long friendId) {
+        FriendshipStatus status = friendshipsService.getFriendshipStatus(friendId);
         return ResponseEntity.ok(status);
     }
 
