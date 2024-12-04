@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Slf4j
 @Component
@@ -18,6 +19,7 @@ public class FileHandlerUtils {
             String filenameBase,
             MultipartFile file
     ) {
+        //backend/media
         String pathDir = String.format("media/%s", path);
         try {
             Files.createDirectories(Path.of(pathDir));
@@ -40,5 +42,14 @@ public class FileHandlerUtils {
         }
 
         return String.format("/static/%s", path + filename);
+    }
+    public void deleteFile(String relativePath) {
+        try {
+            String filePath = relativePath.replaceFirst("/static", "media");
+            Files.deleteIfExists(Paths.get(filePath));
+            log.info("Deleted file: {}", filePath);
+        } catch (Exception e) {
+            log.info("Error deleting file: {}", relativePath, e);
+        }
     }
 }

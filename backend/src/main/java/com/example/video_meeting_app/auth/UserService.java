@@ -69,6 +69,7 @@ public class UserService implements UserDetailsService {
         response.setToken(jwt);
         return response;
     }
+
     public UserDto updateUser(UpdateUserDto dto){
         UserEntity userEntity = authFacade.extractUser();
         userEntity.setName(dto.getName());
@@ -83,16 +84,21 @@ public class UserService implements UserDetailsService {
             userEntity.setRole(UserRole.ROLE_USER);
         return UserDto.fromEntity(userRepo.save(userEntity));
     }
+
+
     public UserDto profileImg(MultipartFile file) {
         UserEntity userEntity = authFacade.extractUser();
+        if (userEntity.getProfileImg() != null && !userEntity.getProfileImg().isEmpty()) {
+            fileHandlerUtils.deleteFile(userEntity.getProfileImg());
+        }
         String requestPath = fileHandlerUtils.saveFile(
                 String.format("users/%d/", userEntity.getId()),
                 "profile",
                 file
         );
-
         userEntity.setProfileImg(requestPath);
-        return UserDto.fromEntity(userRepo.save(userEntity));
+        userRepo.save(userEntity);
+        return UserDto.fromEntity(userEntity);
     }
 
     public UserDto getUserInfo() {
