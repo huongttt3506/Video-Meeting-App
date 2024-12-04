@@ -1,6 +1,7 @@
 package com.example.video_meeting_app.auth.dto;
 
 import com.example.video_meeting_app.auth.entity.UserEntity;
+import com.example.video_meeting_app.auth.enums.StatusSet;
 import com.example.video_meeting_app.auth.enums.UserRole;
 import com.example.video_meeting_app.auth.enums.UserStatus;
 import lombok.Builder;
@@ -17,6 +18,7 @@ public class UserDto {
     private String phone;
     private String profileImg;
     private UserStatus status;
+    private StatusSet statusSet;
     private UserRole role;
 
     public static UserDto fromEntity(UserEntity entity){
@@ -28,6 +30,7 @@ public class UserDto {
                 .phone(entity.getPhone())
                 .profileImg(entity.getProfileImg())
                 .status(entity.getStatus())
+                .statusSet(entity.getStatusSet())
                 .role(entity.getRole())
                 .build();
     }
