@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("users")
 @RequiredArgsConstructor
-public class UserController {
-    private final UserService userService;
+public class AuthController {
+    private final AuthService userService;
 
     @PostMapping("signin")
     public JwtResponseDto signIn(
@@ -33,6 +34,13 @@ public class UserController {
             CreateUserDto dto
     ) {
         return userService.createUser(dto);
+    }
+
+    // Logout API
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout() {
+        userService.logout();
+        return ResponseEntity.ok("Logout successful");
     }
 
     @PutMapping("details")

@@ -1,5 +1,6 @@
 package com.example.video_meeting_app.auth.entity;
 
+import com.example.video_meeting_app.auth.enums.StatusSet;
 import com.example.video_meeting_app.auth.enums.UserRole;
 import com.example.video_meeting_app.auth.enums.UserStatus;
 import com.example.video_meeting_app.common.entity.BaseEntity;
@@ -30,13 +31,14 @@ public class UserEntity extends BaseEntity {
     private String profileImg;
     private UserStatus status; //ONLINE, OFFLINE, BUSY
     private UserRole role; //ADMIN, USER
+    private StatusSet statusSet; //AUTO, OFFLINE, BUSY
 
     //Relationships with other entities
-    //Friendships
-    @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL)
-    private List<Friendships> friendshipsAsUser1;
-    @OneToMany(mappedBy = "user2", cascade = CascadeType.ALL)
-    private List<Friendships> friendshipsAsUser2;
+//    //Friendships
+//    @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL)
+//    private List<Friendships> friendshipsAsUser1;
+//    @OneToMany(mappedBy = "user2", cascade = CascadeType.ALL)
+//    private List<Friendships> friendshipsAsUser2;
 
     //MemberRooms
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
