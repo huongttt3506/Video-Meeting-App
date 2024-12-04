@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -130,7 +129,7 @@ public class FriendshipsService {
     public List<UserEntity> readFriendsList() {
         UserEntity currentUser = authFacade.extractUser();
         // Get list friends
-        List<Friendships> friendships = friendshipsRepository.findAllByUser1OrUser2AndStatus(currentUser, FriendshipStatus.ACCEPTED);
+        List<Friendships> friendships = friendshipsRepository.findFriendshipsByUserAndStatus(currentUser, FriendshipStatus.ACCEPTED);
 
         return friendships.stream()
                 .map(friendship -> friendship.getUser1().equals(currentUser) ? friendship.getUser2() : friendship.getUser1())
@@ -183,14 +182,14 @@ public class FriendshipsService {
     //count friends
     public Long countFriends() {
         UserEntity currentUser = authFacade.extractUser();
-        return friendshipsRepository.countByUser1OrUser2AndStatus(currentUser, FriendshipStatus.ACCEPTED);
+        return friendshipsRepository.countFriendshipsByUserAndStatus(currentUser, FriendshipStatus.ACCEPTED);
     }
 
     // get list friend is online now
     public List<UserEntity> readOnlineFriends() {
         UserEntity currentUser = authFacade.extractUser();
 
-        List<Friendships> friendships = friendshipsRepository.findAllByUser1OrUser2AndStatus(currentUser, FriendshipStatus.ACCEPTED);
+        List<Friendships> friendships = friendshipsRepository.findFriendshipsByUserAndStatus(currentUser, FriendshipStatus.ACCEPTED);
 
         return friendships.stream()
                 .map(friendship -> friendship.getUser1().equals(currentUser) ? friendship.getUser2() : friendship.getUser1())

@@ -11,6 +11,7 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "friendships")
 @Builder
 public class Friendships extends BaseEntity {
     @ManyToOne
