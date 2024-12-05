@@ -4,8 +4,6 @@ import com.example.video_meeting_app.auth.enums.StatusSet;
 import com.example.video_meeting_app.auth.enums.UserRole;
 import com.example.video_meeting_app.auth.enums.UserStatus;
 import com.example.video_meeting_app.common.entity.BaseEntity;
-import com.example.video_meeting_app.friendship.entity.Friendships;
-import com.example.video_meeting_app.message.entity.Messages;
 import com.example.video_meeting_app.room.entity.MemberRoom;
 import jakarta.persistence.*;
 import lombok.*;

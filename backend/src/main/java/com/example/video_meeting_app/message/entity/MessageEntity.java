@@ -2,7 +2,6 @@ package com.example.video_meeting_app.message.entity;
 
 import com.example.video_meeting_app.auth.entity.UserEntity;
 import com.example.video_meeting_app.common.entity.BaseEntity;
-import com.example.video_meeting_app.file.entity.FilesEntity;
 import com.example.video_meeting_app.message.enums.MessageType;
 import com.example.video_meeting_app.room.entity.Rooms;
 import jakarta.persistence.*;
@@ -14,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Messages extends BaseEntity {
+public class MessageEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
     private Rooms room;
@@ -35,5 +34,5 @@ public class Messages extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "file_id", nullable = true)
-    private FilesEntity file;
+    private FileEntity file;
 }
