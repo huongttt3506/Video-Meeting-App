@@ -2,7 +2,7 @@ package com.example.video_meeting_app.video_call.entity;
 
 import com.example.video_meeting_app.common.entity.BaseEntity;
 import com.example.video_meeting_app.room.entity.MemberRoom;
-import com.example.video_meeting_app.room.entity.Rooms;
+import com.example.video_meeting_app.room.entity.Room;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,7 +17,7 @@ import java.util.Set;
 public class VideoCalls extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
-    private Rooms room;
+    private Room room;
     @OneToMany(mappedBy = "videoCall", fetch = FetchType.LAZY)
     private Set<MemberRoom> memberRooms;
 }

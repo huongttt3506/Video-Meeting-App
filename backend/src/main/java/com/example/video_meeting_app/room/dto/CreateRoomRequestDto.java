@@ -8,7 +8,5 @@ import java.util.List;
 public class CreateRoomRequestDto {
     private String name;
     private String description;
-    private boolean isGroup;
-    private String imageUrl;
-    private List<MemberRequestDto> members;
+    private List<Long> memberIds;
 }

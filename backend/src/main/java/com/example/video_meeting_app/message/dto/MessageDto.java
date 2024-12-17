@@ -15,7 +15,7 @@ public class MessageDto {
     private String content;
     private boolean isEdited;
     private MessageType messageType;
-    private FileEntity file;
+    private FileDto file;
     public static MessageDto fromEntity(MessageEntity message) {
         MessageDto dto = new MessageDto();
         dto.setRoomId(message.getRoom().getId());
@@ -25,7 +25,7 @@ public class MessageDto {
         dto.setContent(message.getContent());
         dto.setEdited(message.isEdited());
         dto.setMessageType(message.getMessageType());
-        dto.setFile(message.getFile());
+        dto.setFile(message.getFile() != null ? FileDto.fromEntity(message.getFile()) : null);
         return dto;
     }
 }

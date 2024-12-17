@@ -3,7 +3,7 @@ package com.example.video_meeting_app.message.entity;
 import com.example.video_meeting_app.auth.entity.UserEntity;
 import com.example.video_meeting_app.common.entity.BaseEntity;
 import com.example.video_meeting_app.message.enums.MessageType;
-import com.example.video_meeting_app.room.entity.Rooms;
+import com.example.video_meeting_app.room.entity.Room;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,10 +13,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "Message")
 public class MessageEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
-    private Rooms room;
+    private Room room;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

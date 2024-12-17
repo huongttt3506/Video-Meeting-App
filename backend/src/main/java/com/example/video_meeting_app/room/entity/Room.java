@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.*;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Rooms extends BaseEntity {
+public class Room extends BaseEntity {
     @Column(nullable = false)
     private String name; //room name (In case 1:1 chat, room name is user1_user2)
     private String description; //a description of the group's purpose or other additional information
@@ -29,10 +30,39 @@ public class Rooms extends BaseEntity {
     @OneToMany(mappedBy = "room")
     private List<MemberRoom> memberRoomList = new ArrayList<>(); //members of room
 
-    public void setTitleForPrivateRoom(UserEntity user1, UserEntity user2) {
+    public boolean isGroupRoom() {
+        return this.isGroup;
+    }
+
+    public void setNameForPrivateRoom(UserEntity user1, UserEntity user2) {
         if (!isGroup) {
             this.name = user1.getUsername() + "_" + user2.getUsername();
         }
+    }
+
+    public List<UserEntity> getMembers() {
+        List<UserEntity> members = new ArrayList<>();
+        for (MemberRoom memberRoom: memberRoomList) {
+            members.add(memberRoom.getMember());
+        }
+        return members;
+    }
+
+    public boolean isOwner(UserEntity user) {
+        return memberRoomList.stream()
+                .anyMatch(memberRoom -> memberRoom.getMember().equals(user)
+                        && memberRoom.getAuthority() == Authority.HOST);
+    }
+
+    public boolean isAdmin(UserEntity user) {
+        return memberRoomList.stream()
+                .anyMatch(memberRoom -> memberRoom.getMember().equals(user)
+                        && memberRoom.getAuthority() == Authority.ADMIN
+                );
+    }
+
+    public void removeMember(UserEntity user) {
+        memberRoomList.removeIf(memberRoom -> memberRoom.getMember().equals(user));
     }
 
     public void addMember(UserEntity user, Authority authority) {

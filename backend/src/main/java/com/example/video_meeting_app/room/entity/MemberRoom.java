@@ -16,7 +16,7 @@ import lombok.*;
 public class MemberRoom extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
-    private Rooms room;
+    private Room room;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -29,4 +29,6 @@ public class MemberRoom extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "video_call_id")
     private VideoCalls videoCall;
+
+
 }

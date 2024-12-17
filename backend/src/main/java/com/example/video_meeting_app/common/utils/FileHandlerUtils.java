@@ -49,7 +49,7 @@ public class FileHandlerUtils {
             Files.deleteIfExists(Paths.get(filePath));
             log.info("Deleted file: {}", filePath);
         } catch (Exception e) {
-            log.info("Error deleting file: {}", relativePath, e);
+            log.warn("Error deleting file: {}", relativePath, e);
         }
     }
 }
